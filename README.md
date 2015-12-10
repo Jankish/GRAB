@@ -1,9 +1,9 @@
-## GRAB
-# G etting
-# R id
+# GRAB
+Getting
+Rid
 of
-# All 
-# Bounds
+All 
+Bounds
 
 This program creates excel files by extracting information from .kos 
 files, which are created in Lundagrossisten. The goal is reduce the 
