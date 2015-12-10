@@ -17,13 +17,15 @@ public class GUI extends JFrame{
 
 	public GUI() {
 		setSize(750,500);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
 		setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		setResizable(false);	
 		setTitle("GRAB v1.0");
 		setDefaultLookAndFeelDecorated(true);
+		WinListener winList = new WinListener();
+		this.addWindowListener(winList);
 
 
 		//GridBagLayout
@@ -69,7 +71,7 @@ public class GUI extends JFrame{
 		removeAll = new JButton("Rensa listan");
 		ButtonListener removeAllList = new ButtonListener();
 		removeAll.addActionListener(removeAllList);
-		
+
 		//List model
 		model = new DefaultListModel<String>();
 
@@ -82,7 +84,7 @@ public class GUI extends JFrame{
 		centerPanel.add(pane);
 
 		//Add to Panel
-		
+
 		southPanel.add(abort);
 		southPanel.add(remove);
 		southPanel.add(removeAll);
@@ -104,23 +106,25 @@ public class GUI extends JFrame{
 			if (e.getSource() == confirm) {
 				e.getSource().toString();
 				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Inga filer har valts!", "Varning!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Inga filer har valts!", "No file selected", JOptionPane.WARNING_MESSAGE);
 				} else {
 					System.out.println("Confirm Pressed");
 				}
 			} else if (e.getSource() == abort) {
+				int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
 				System.out.println("Abort Pressed");
-				System.exit(0);
+				if (n == 0)
+					System.exit(0);
 			} else if (e.getSource() == remove) {
 				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Listan är tom!", "Varning!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
 				} else {
 					System.out.println(list.getSelectedIndex());
 					System.out.println("Remove item");
 				}
 			} else if (e.getSource() == removeAll) {
 				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Listan är tom!", "Varning!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
 				} else {
 					System.out.println("Remove all");
 				}
@@ -139,6 +143,18 @@ public class GUI extends JFrame{
 					System.out.println("File selected: " + fileChooser.getSelectedFile().getName());
 				}
 			}
+		}
+	}
+
+	private class WinListener extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
+			System.out.println("Abort Pressed");
+			if (n == 0)
+				System.exit(0);
+			System.out.println("Trying to close the window");
 		}
 	}
 }
