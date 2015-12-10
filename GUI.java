@@ -46,11 +46,10 @@ public class GUI extends JFrame{
 		fileChooser = new JFileChooser();
 		//fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter( "xml","kos");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(".kos", "kos");
 		fileChooser.setApproveButtonText("Välj");
 		//fileChooser.addChoosableFileFilter(filter);
-		//fileChooser.setFileFilter(filter);
-		//centerPanel.add(fileChooser, BorderLayout.WEST);
+		fileChooser.setFileFilter(filter);
 		FileListener fileList = new FileListener();
 		fileChooser.addActionListener(fileList);
 		centerPanel.add(fileChooser);
@@ -104,20 +103,22 @@ public class GUI extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == confirm) {
-				e.getSource().toString();
 				if (model.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Inga filer har valts!", "No file selected", JOptionPane.WARNING_MESSAGE);
 				} else {
 					System.out.println("Confirm Pressed");
 				}
 			} else if (e.getSource() == abort) {
-				int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
+				//int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
 				System.out.println("Abort Pressed");
-				if (n == 0)
+				//if (n == 0)
 					System.exit(0);
 			} else if (e.getSource() == remove) {
 				if (model.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
+				} else if (list.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Markera vilken fil du vill ta bort", "No file selected", JOptionPane.WARNING_MESSAGE);
+					System.out.println("Implement dialog here");
 				} else {
 					System.out.println(list.getSelectedIndex());
 					System.out.println("Remove item");
@@ -154,7 +155,6 @@ public class GUI extends JFrame{
 			System.out.println("Abort Pressed");
 			if (n == 0)
 				System.exit(0);
-			System.out.println("Trying to close the window");
 		}
 	}
 }
