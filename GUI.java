@@ -3,15 +3,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class GUI extends JFrame{
-	
+
 	JButton confirm;
 	JButton abort;
+	JButton remove;
+	JButton removeAll;
 	JList list;
 	DefaultListModel<String> model;
 	JFileChooser fileChooser;
-	
+
 	public GUI() {
 		setSize(750,500);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -25,7 +28,7 @@ public class GUI extends JFrame{
 
 		//GridBagLayout
 		GridLayout gridLayout = new GridLayout();
-		
+
 		//Top Panel
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
@@ -39,8 +42,8 @@ public class GUI extends JFrame{
 
 		//File Chooser
 		fileChooser = new JFileChooser();
-	      	//fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-	      	fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		//fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter( "xml","kos");
 		fileChooser.setApproveButtonText("Välj");
 		//fileChooser.addChoosableFileFilter(filter);
@@ -49,7 +52,7 @@ public class GUI extends JFrame{
 		FileListener fileList = new FileListener();
 		fileChooser.addActionListener(fileList);
 		centerPanel.add(fileChooser);
-		
+
 		//Button
 		confirm = new JButton("Skapa excel");
 		ButtonListener confirmList = new ButtonListener();
@@ -58,6 +61,14 @@ public class GUI extends JFrame{
 		abort = new JButton("Avbryt");
 		ButtonListener abortList = new ButtonListener();
 		abort.addActionListener(abortList);
+
+		remove = new JButton("Ta bort från listan");
+		ButtonListener removeList = new ButtonListener();
+		remove.addActionListener(removeList);
+
+		removeAll = new JButton("Rensa listan");
+		ButtonListener removeAllList = new ButtonListener();
+		removeAll.addActionListener(removeAllList);
 		
 		//List model
 		model = new DefaultListModel<String>();
@@ -71,9 +82,12 @@ public class GUI extends JFrame{
 		centerPanel.add(pane);
 
 		//Add to Panel
-		southPanel.add(abort);
-		southPanel.add(confirm);
 		
+		southPanel.add(abort);
+		southPanel.add(remove);
+		southPanel.add(removeAll);
+		southPanel.add(confirm);
+
 		topPanel.add(centerPanel, BorderLayout.NORTH);	
 		topPanel.add(southPanel, BorderLayout.SOUTH);
 
@@ -85,26 +99,45 @@ public class GUI extends JFrame{
 	}
 
 	private class ButtonListener implements ActionListener{
-		
+
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == confirm) {
 				e.getSource().toString();
-				System.out.println("Confirm Pressed");
-			} else if(e.getSource() == abort) {
+				if (model.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Inga filer har valts!", "Varning!", JOptionPane.WARNING_MESSAGE);
+				} else {
+					System.out.println("Confirm Pressed");
+				}
+			} else if (e.getSource() == abort) {
 				System.out.println("Abort Pressed");
 				System.exit(0);
+			} else if (e.getSource() == remove) {
+				if (model.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Listan är tom!", "Varning!", JOptionPane.WARNING_MESSAGE);
+				} else {
+					System.out.println(list.getSelectedIndex());
+					System.out.println("Remove item");
+				}
+			} else if (e.getSource() == removeAll) {
+				if (model.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Listan är tom!", "Varning!", JOptionPane.WARNING_MESSAGE);
+				} else {
+					System.out.println("Remove all");
+				}
 			}
 		}
 
 	}
-	
+
 	private class FileListener implements ActionListener {
-		
+
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = (JFileChooser) e.getSource();
 			if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-				model.addElement(fileChooser.getSelectedFile().getName());
-				System.out.println("File selected: " + fileChooser.getSelectedFile().getName());
+				if (!model.contains(fileChooser.getSelectedFile().getName())) {
+					model.addElement(fileChooser.getSelectedFile().getName());
+					System.out.println("File selected: " + fileChooser.getSelectedFile().getName());
+				}
 			}
 		}
 	}
