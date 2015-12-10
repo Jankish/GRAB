@@ -9,7 +9,7 @@ public class GUI extends JFrame{
 	JButton confirm;
 	JButton abort;
 	JList list;
-	DefaultListModel model;
+	DefaultListModel<String> model;
 	JFileChooser fileChooser;
 	
 	public GUI() {
@@ -60,7 +60,7 @@ public class GUI extends JFrame{
 		abort.addActionListener(abortList);
 		
 		//List model
-		model = new DefaultListModel();
+		model = new DefaultListModel<String>();
 
 		//List
 		list = new JList(model); 
@@ -103,7 +103,7 @@ public class GUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = (JFileChooser) e.getSource();
 			if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-				//model.add(fileChooser.getSelectedFile());
+				model.addElement(fileChooser.getSelectedFile().getName());
 				System.out.println("File selected: " + fileChooser.getSelectedFile().getName());
 			}
 		}
