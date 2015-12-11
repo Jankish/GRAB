@@ -83,10 +83,4 @@ public class Model {
 			System.out.println(list.get(i));
 		}
 	}
-/*
-	public static void main(String[] args){
-		File fileDir = new File("/Users/daniel/Documents/miscellaneous/GRAB/temp.kos");
-		Parser prs = new Parser(fileDir);
-	}**/
 }
-

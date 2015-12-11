@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class GUI extends JFrame{
 
-	public JButton confirm;
+	JButton confirm;
 	JButton abort;
 	JButton remove;
 	JButton removeAll;
@@ -41,7 +41,6 @@ public class GUI extends JFrame{
 
 		//File Chooser
 		fileChooser = new JFileChooser();
-		//fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(".kos", "kos");
 		fileChooser.setApproveButtonText("Välj");
