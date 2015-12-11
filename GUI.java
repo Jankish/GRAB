@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class GUI extends JFrame{
 
-	JButton confirm;
+	public JButton confirm;
 	JButton abort;
 	JButton remove;
 	JButton removeAll;
@@ -24,9 +24,6 @@ public class GUI extends JFrame{
 		setResizable(false);	
 		setTitle("GRAB v1.0");
 		setDefaultLookAndFeelDecorated(true);
-		WinListener winList = new WinListener();
-		this.addWindowListener(winList);
-
 
 		//GridBagLayout
 		GridLayout gridLayout = new GridLayout();
@@ -50,26 +47,16 @@ public class GUI extends JFrame{
 		fileChooser.setApproveButtonText("Välj");
 		//fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);
-		FileListener fileList = new FileListener();
-		fileChooser.addActionListener(fileList);
 		centerPanel.add(fileChooser);
 
 		//Button
 		confirm = new JButton("Skapa excel");
-		ButtonListener confirmList = new ButtonListener();
-		confirm.addActionListener(confirmList);
 
 		abort = new JButton("Avbryt");
-		ButtonListener abortList = new ButtonListener();
-		abort.addActionListener(abortList);
 
 		remove = new JButton("Ta bort från listan");
-		ButtonListener removeList = new ButtonListener();
-		remove.addActionListener(removeList);
 
 		removeAll = new JButton("Rensa listan");
-		ButtonListener removeAllList = new ButtonListener();
-		removeAll.addActionListener(removeAllList);
 
 		//List model
 		model = new DefaultListModel<String>();
@@ -95,67 +82,55 @@ public class GUI extends JFrame{
 		//Add to frame
 		add(topPanel);
 
+
+	}
+
+	public void addConfirmListener(ActionListener confirmListener) {
+		confirm.addActionListener(confirmListener);
+	}
+
+	public void addAbortListener(ActionListener abortListener) {
+		abort.addActionListener(abortListener);
+	}
+	
+	public void addRemoveListener(ActionListener removeListener) {
+		remove.addActionListener(removeListener);
+	}
+	
+	public void addRemoveAllListener(ActionListener removeAllListener) {
+		removeAll.addActionListener(removeAllListener);
+	}
+
+	public void addFileListener(ActionListener fileListener) {
+		fileChooser.addActionListener(fileListener);
+	}	
+
+	public void addFrameListener(WindowListener winListener) {
+		this.addWindowListener(winListener);
+	}
+
+	public boolean isModelEmpty() {
+		return model.isEmpty();
+	}
+
+	public int getSelectedIndex() {
+		return list.getSelectedIndex();
+	}
+
+	public void addElement(String filename) {
+		model.addElement(filename);
+	}
+
+	public boolean contains(String filename) {
+		return model.contains(filename);
+	}
+
+	public String getFileName() {
+		return fileChooser.getSelectedFile().getName();	
+	}
+
+	public void setVis() {
 		setVisible(true);
-
-	}
-
-	private class ButtonListener implements ActionListener{
-
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == confirm) {
-				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Inga filer har valts!", "No file selected", JOptionPane.WARNING_MESSAGE);
-				} else {
-					System.out.println("Confirm Pressed");
-				}
-			} else if (e.getSource() == abort) {
-				//int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
-				System.out.println("Abort Pressed");
-				//if (n == 0)
-					System.exit(0);
-			} else if (e.getSource() == remove) {
-				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
-				} else if (list.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Markera vilken fil du vill ta bort", "No file selected", JOptionPane.WARNING_MESSAGE);
-					System.out.println("Implement dialog here");
-				} else {
-					System.out.println(list.getSelectedIndex());
-					System.out.println("Remove item");
-				}
-			} else if (e.getSource() == removeAll) {
-				if (model.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
-				} else {
-					System.out.println("Remove all");
-				}
-			}
-		}
-
-	}
-
-	private class FileListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = (JFileChooser) e.getSource();
-			if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-				if (!model.contains(fileChooser.getSelectedFile().getName())) {
-					model.addElement(fileChooser.getSelectedFile().getName());
-					System.out.println("File selected: " + fileChooser.getSelectedFile().getName());
-				}
-			}
-		}
-	}
-
-	private class WinListener extends WindowAdapter {
-
-		@Override
-		public void windowClosing(WindowEvent e) {
-			int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
-			System.out.println("Abort Pressed");
-			if (n == 0)
-				System.exit(0);
-		}
 	}
 }
 

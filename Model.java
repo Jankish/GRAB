@@ -3,11 +3,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.text.*;
 
-public class Parser {
+public class Model {
 
 	private boolean checkpoint;
+	//ArrayList<Data> items;
+	//ArrayList<String> extractedInfo;
+	//private ArrayList<String> processed;
 
-	public Parser(File filename) {
+	public void process(File filename) {
+		//processed = new ArrayList<Data>();
+		extractInfo(filename);
+		createExcel();
+	}
+
+	private void extractInfo(File filename) {
 		checkpoint = false;
 		String line;
 		try {
@@ -34,7 +43,7 @@ public class Parser {
 		}
 	}
 
-	public ArrayList<Data> process(ArrayList<String> info) {
+	private void process(ArrayList<String> info) {
 		ArrayList<Data> processed = new ArrayList<Data>();
 		int quant = Integer.parseInt(info.get(2));
 		int rows = 9;
@@ -57,7 +66,10 @@ public class Parser {
 			}
 		}
 		//printDataList(processed);
-		return processed;
+		//return processed;
+	}
+
+	public void createExcel() {
 	}
 
 	public void printList(ArrayList<String> list) {
@@ -71,10 +83,10 @@ public class Parser {
 			System.out.println(list.get(i));
 		}
 	}
-
+/*
 	public static void main(String[] args){
 		File fileDir = new File("/Users/daniel/Documents/miscellaneous/GRAB/temp.kos");
 		Parser prs = new Parser(fileDir);
-	}
+	}**/
 }
 
