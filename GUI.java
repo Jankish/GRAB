@@ -4,7 +4,8 @@ import java.awt.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-
+import java.util.*;
+import java.io.File;
 public class GUI extends JFrame{
 
 	JButton confirm;
@@ -14,8 +15,10 @@ public class GUI extends JFrame{
 	JList list;
 	DefaultListModel<String> model;
 	JFileChooser fileChooser;
-
+	ArrayList<ListData> fileList;
+	
 	public GUI() {
+		fileList = new ArrayList<ListData>();
 		setSize(750,500);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -116,8 +119,21 @@ public class GUI extends JFrame{
 		return list.getSelectedIndex();
 	}
 
-	public void addElement(String filename) {
+	public void addElement(String filename, File filepath) {
 		model.addElement(filename);
+		ListData ld = new ListData(filename, filepath);
+		fileList.add(ld);
+	}
+
+	public void removeElement(int index) {
+		System.out.println(fileList.get(index));	
+		model.remove(index);
+		fileList.remove(index);
+	}
+
+	public void removeAllElements() {
+		model.removeAllElements();
+		fileList.clear();
 	}
 
 	public boolean contains(String filename) {
@@ -130,6 +146,10 @@ public class GUI extends JFrame{
 
 	public void setVis() {
 		setVisible(true);
+	}
+
+	public File getFilePath() {
+		return fileChooser.getSelectedFile();	
 	}
 }
 

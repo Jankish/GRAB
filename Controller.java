@@ -52,6 +52,7 @@ public class Controller {
 				System.out.println("Implement dialog here");
 			} else {
 				System.out.println(gui.getSelectedIndex());
+				gui.removeElement(gui.getSelectedIndex());
 				System.out.println("Remove item");
 			}
 		}
@@ -62,6 +63,7 @@ public class Controller {
 			if (gui.isModelEmpty()) {
 				JOptionPane.showMessageDialog(null, "Listan är tom!", "Empty list", JOptionPane.WARNING_MESSAGE);
 			} else {
+				gui.removeAllElements();
 				System.out.println("Remove all");
 			}
 		}
@@ -72,9 +74,10 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = (JFileChooser) e.getSource();
 			if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-				if (!gui.contains(gui.getFileName())) {
-					gui.addElement(gui.getFileName());
-					System.out.println("File selected: " + gui.getFileName());
+				String fileName = gui.getFileName();
+				if (!gui.contains(gui.getFileName()) && validate(gui.getFileName())) {
+					gui.addElement(gui.getFileName(), gui.getFilePath());
+					System.out.println("File selected: " + gui.getFileName() + " Path " + gui.getFilePath());
 				}
 			}
 		}
@@ -89,5 +92,9 @@ public class Controller {
 			if (n == 0)
 				System.exit(0);
 		}
+	}
+
+	private boolean validate(String filename) {
+		return filename.contains(".kos");	
 	}
 }

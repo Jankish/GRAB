@@ -6,12 +6,10 @@ import java.text.*;
 public class Model {
 
 	private boolean checkpoint;
-	//ArrayList<Data> items;
-	//ArrayList<String> extractedInfo;
-	//private ArrayList<String> processed;
+	private ArrayList<Data> dataList;
 
 	public void process(File filename) {
-		//processed = new ArrayList<Data>();
+		dataList = new ArrayList<Data>();
 		extractInfo(filename);
 		createExcel();
 	}
@@ -29,8 +27,8 @@ public class Model {
 				if (checkpoint) 
 					order.add(new String(line));
 			}
-			//printList(order);
-			process(order);
+			printList(order);
+			process(order, dataList);
 		} catch (FileNotFoundException found) {
 			found.printStackTrace();
 			System.exit(1);
@@ -43,8 +41,8 @@ public class Model {
 		}
 	}
 
-	private void process(ArrayList<String> info) {
-		ArrayList<Data> processed = new ArrayList<Data>();
+	private void process(ArrayList<String> info, ArrayList<Data> dataList) {
+		//ArrayList<Data> dataList = new ArrayList<Data>();
 		int quant = Integer.parseInt(info.get(2));
 		int rows = 9;
 		int outer = (quant * rows);
@@ -59,14 +57,13 @@ public class Model {
 			number = format.parse(info.get(i+7));
 			total = number.doubleValue();
 			Data d = new Data(info.get(i), Integer.parseInt(info.get(i+1)), Integer.parseInt(info.get(i+2)), info.get(i+3),info.get(i+4), price, total);
-			processed.add(d);
+			dataList.add(d);
 			} catch (ParseException numExcep) {
 				numExcep.printStackTrace();
 				System.exit(1);
 			}
 		}
 		//printDataList(processed);
-		//return processed;
 	}
 
 	public void createExcel() {
