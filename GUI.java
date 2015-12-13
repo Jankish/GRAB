@@ -151,5 +151,9 @@ public class GUI extends JFrame{
 	public File getFilePath() {
 		return fileChooser.getSelectedFile();	
 	}
+
+	public ArrayList<ListData> getFileList() {
+		return fileList;
+	}
 }
 

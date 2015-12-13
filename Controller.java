@@ -29,6 +29,7 @@ public class Controller {
 			if (gui.isModelEmpty()) {
 				JOptionPane.showMessageDialog(null, "Inga filer har valts!", "No file selected", JOptionPane.WARNING_MESSAGE);
 			} else {
+				model.process(gui.getFileList());
 				System.out.println("Confirm Pressed");
 			}
 		}
