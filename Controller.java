@@ -95,6 +95,6 @@ public class Controller {
 	}
 
 	private boolean validate(String filename) {
-		return filename.contains(".kos");	
+		return filename.endsWith(".kos");	
 	}
 }
