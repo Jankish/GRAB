@@ -4,7 +4,7 @@ import java.util.*;
 import java.text.NumberFormat;
 import java.text.*;
 import java.lang.Number;
-
+import java.util.Locale;
 import jxl.*;
 import java.util.*;
 import jxl.Workbook;
@@ -14,6 +14,10 @@ public class Model {
 
 	private boolean checkpoint;
 	private ArrayList<Data> dataList;
+	//private Locale loc = new Locale("sv", "SE");
+	//private NumberFormat format = NumberFormat.getInstance(loc);
+	//DecimalFormat df = new DecimalFormat("#,00", DecimalFormatSymbols.getInstance(loc));
+	//NumberFormat format = NumberFormat.getInstance();
 
 	public void process(ArrayList<ListData> files) {
 		for (int i = 0; i < files.size(); i++) {
@@ -36,18 +40,23 @@ public class Model {
 				if (checkpoint) 
 					order.add(new String(line));
 			}
-			//printList(order);
+			printList(order);
 			int quant = Integer.parseInt(order.get(2));
 			int rows = 9;
 			int outer = (quant * rows);
 			double price;
 			double total;
-			NumberFormat format = NumberFormat.getInstance(new Locale("sv","SE"));
+			//DecimalFormat decimal = (DecimalFormat) format;
 			Number number;
 			for (int i = 4; i <= outer; i+=9){
-				try {
+				Data d = new Data(order.get(i+1), order.get(i+3), order.get(i+4), order.get(i+5), order.get(i+7));
+				dataList.add(d);
+			/*	try {
+					System.out.println(order.get(i+5));
 					number = format.parse(order.get(i+5));
+					System.out.println("Number is " + number);
 					price = number.doubleValue();
+					System.out.println("Price is " + price);
 					number = format.parse(order.get(i+7));
 					total = number.doubleValue();
 					Data d = new Data(order.get(i), Integer.parseInt(order.get(i+1)), Integer.parseInt(order.get(i+2)), order.get(i+3), order.get(i+4), price, total);
@@ -56,6 +65,7 @@ public class Model {
 					numExcep.printStackTrace();
 					System.exit(1);
 				}
+				**/
 			}
 			printDataList(dataList);
 		} catch (FileNotFoundException found) {
@@ -72,19 +82,14 @@ public class Model {
 
 	public void createExcel(String file) {
 		
-		System.out.println("Before replace = " + file);
-		file.replace(".kos",".xls");
-		System.out.println("After replace = " + file);
-		String filename = "~/Document/";
-		filename.concat(file);
+		String filename = createPath(file);
 		System.out.println(filename);
 		
-/**
 		try {
 			WorkbookSettings ws = new WorkbookSettings();
 			ws.setLocale(new Locale("sv", "SE"));
 			WritableWorkbook workbook = Workbook.createWorkbook(new File(filename), ws);
-			WritableSheet s = workbook.createSheet("Specifikation", 0);
+			WritableSheet s = workbook.createSheet("Sheet1", 0);
 			//writeDataSheet(s);
 			workbook.write();
 			workbook.close();
@@ -93,9 +98,17 @@ public class Model {
 		} catch (WriteException e) {
 			e.printStackTrace();
 		}
-		**/
 	}
 
+	private String createPath(String filename) {
+		StringBuilder sb = new StringBuilder();
+		int index = filename.indexOf(".");
+		sb.append("/Users/daniel/Documents/");
+		sb.append(filename.substring(0,index));
+		sb.append(".");
+		sb.append("xls");
+		return sb.toString();
+	}
 
 	private static void writeDataSheet(WritableSheet s) {
 	
