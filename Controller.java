@@ -37,10 +37,10 @@ public class Controller {
 
 	public class AbortListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			//int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
+			int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
 			System.out.println("Abort Pressed");
-			//if (n == 0)
-			System.exit(0);
+			if (n == 0)
+				System.exit(0);
 		}
 	}
 
