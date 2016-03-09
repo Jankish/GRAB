@@ -45,7 +45,7 @@ public class GUI extends JFrame{
 		//File Chooser
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(".kos", "kos");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("LundaGross", "kos", "fau");
 		fileChooser.setApproveButtonText("Välj");
 		//fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);

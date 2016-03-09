@@ -87,15 +87,21 @@ public class Controller {
 	//Window Listener
 	public class WinListener extends WindowAdapter {
 		@Override
-		public void windowClosing(WindowEvent e) {
-			int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
-			System.out.println("Abort Pressed");
-			if (n == 0)
-				System.exit(0);
-		}
+			public void windowClosing(WindowEvent e) {
+				int n = JOptionPane.showConfirmDialog(null, "Vill du avsluta programmet?", "Caution", JOptionPane.YES_NO_OPTION);
+				System.out.println("Abort Pressed");
+				if (n == 0)
+					System.exit(0);
+			}
 	}
 
 	private boolean validate(String filename) {
-		return filename.endsWith(".kos");	
+		System.out.println("validate");
+		if (filename.endsWith(".kos") || filename.endsWith(".fau")) {
+			return true;
+		} else {
+			return false;
+			//return filename.endsWith(".kos");	
+		}
 	}
 }
